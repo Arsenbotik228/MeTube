@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.myself223.metube.data.models.BaseMainResponse
 import com.myself223.metube.data.models.ItemPlaylistDto
-import com.myself223.metube.databinding.ItemPlaylistsBinding
+import com.myself223.metube.databinding.ItemPlaylistBinding
 import com.myself223.metube.ui.fragments.playlist.PlaylistsFragment
 
-class PlaylistAdapter(playlistsFragment: PlaylistsFragment, private val click: Click) : ListAdapter<BaseMainResponse<ItemPlaylistDto>, PlaylistAdapter.HomeViewHolder>(
-    HomeDiffUtill()
+class PlaylistAdapter(playlistsFragment: PlaylistsFragment, private val click: Click) : ListAdapter<BaseMainResponse<ItemPlaylistDto>, PlaylistAdapter.PlaylistViewHolder>(
+    PlaylistDiffUtill()
 ) {
-    class HomeViewHolder(private val binding: ItemPlaylistsBinding) : ViewHolder(binding.root) {
+    class PlaylistViewHolder(private val binding: ItemPlaylistBinding) : ViewHolder(binding.root) {
         fun onBind(it: BaseMainResponse<ItemPlaylistDto>) {
 
             binding.itemNamePlaylist.text = it.items.get(1).snippetDto?.title
@@ -24,19 +24,19 @@ class PlaylistAdapter(playlistsFragment: PlaylistsFragment, private val click: C
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        return HomeViewHolder(ItemPlaylistsBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
+        return PlaylistViewHolder(ItemPlaylistBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        val homeModel = getItem(position)
+    override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
+        val PlaylistModel = getItem(position)
         holder.itemView.setOnClickListener {
-            click.onClick(homeModel)
+            click.onClick(PlaylistModel)
         }
-        holder.onBind(homeModel)
+        holder.onBind(PlaylistModel)
     }
 
-    class HomeDiffUtill : DiffUtil.ItemCallback<BaseMainResponse<ItemPlaylistDto>>() {
+    class PlaylistDiffUtill : DiffUtil.ItemCallback<BaseMainResponse<ItemPlaylistDto>>() {
         override fun areItemsTheSame(
             oldItem: BaseMainResponse<ItemPlaylistDto>,
             newItem: BaseMainResponse<ItemPlaylistDto>
