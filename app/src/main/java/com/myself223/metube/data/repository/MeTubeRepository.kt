@@ -35,7 +35,7 @@ class PlaylistRepository @Inject constructor(private val apiService: ApiService)
     }
 }
 */
-class MeTubeRepository  (private val apiService: ApiService){
+/*class MeTubeRepository  (private val apiService: ApiService){
     fun getPlaylist():MutableLiveData<BaseMainResponse<ItemPlaylistDto>>{
         val liveData = MutableLiveData<BaseMainResponse<ItemPlaylistDto>>()
         apiService.getPlaylist().enqueue(object  : Callback<BaseMainResponse<ItemPlaylistDto>>{
@@ -57,4 +57,28 @@ class MeTubeRepository  (private val apiService: ApiService){
 
         return liveData
     }
+}*/
+class MeTubeRepository(private val apiService: ApiService) {
+    fun getPlaylist(): MutableLiveData<BaseMainResponse<ItemPlaylistDto>> {
+        val liveData = MutableLiveData<BaseMainResponse<ItemPlaylistDto>>()
+        apiService.getPlaylist().enqueue(object : Callback<BaseMainResponse<ItemPlaylistDto>> {
+            override fun onResponse(
+                call: Call<BaseMainResponse<ItemPlaylistDto>>,
+                response: Response<BaseMainResponse<ItemPlaylistDto>>
+            ) {
+                if (response.isSuccessful) {
+                    liveData.value = response.body()
+                } else {
+                    liveData.value = null
+                }
+            }
+
+            override fun onFailure(call: Call<BaseMainResponse<ItemPlaylistDto>>, t: Throwable) {
+                t.message?.let { Log.e("ololo", it) }
+                liveData.value = null
+            }
+        })
+        return liveData
+    }
 }
+

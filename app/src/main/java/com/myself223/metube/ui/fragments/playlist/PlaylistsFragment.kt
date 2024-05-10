@@ -27,7 +27,7 @@ class PlaylistsFragment : BaseFragment<FragmentPlaylistsBinding>(), PlaylistAdap
     }
 
     override fun launchObserver() {
-        viewModel.getPlaylist(playlists = playlists)
+        viewModel.getPlaylist()
         viewModel.liveData.observe(viewLifecycleOwner) { resourse ->
             when (resourse) {
                 is Resourse.Loading<*> -> {
@@ -36,7 +36,7 @@ class PlaylistsFragment : BaseFragment<FragmentPlaylistsBinding>(), PlaylistAdap
                 is Resourse.Success<*> -> {
                     binding?.progress?.isGone = true
                     binding?.rvPlaylists?.isVisible = true
-                    adapter.submitList(resourse.data as MutableList<ItemPlaylistDto>?)
+                    adapter.submitList(resourse.data)
                 }
                 is Resourse.Error<*> -> {
                     binding?.progress?.isGone = true
