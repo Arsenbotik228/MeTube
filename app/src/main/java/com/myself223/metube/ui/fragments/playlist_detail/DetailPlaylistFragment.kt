@@ -11,7 +11,7 @@ import com.myself223.metube.databinding.FragmentDetailPlaylistBinding
 
 class DetailPlaylistFragment : BaseFragment<FragmentDetailPlaylistBinding>() {
     override fun getViewBinding(): FragmentDetailPlaylistBinding {
-        TODO("Not yet implemented")
+        return FragmentDetailPlaylistBinding.inflate(layoutInflater)
     }
 
 
@@ -19,7 +19,6 @@ class DetailPlaylistFragment : BaseFragment<FragmentDetailPlaylistBinding>() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return binding?.root
     }
 

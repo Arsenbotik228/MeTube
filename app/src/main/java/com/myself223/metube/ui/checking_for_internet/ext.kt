@@ -1,4 +1,6 @@
-package com.myself223.mynewsapp.ui.сheckingforinternet
+@file:Suppress("DEPRECATION")
+
+package com.myself223.metube.ui.checking_for_internet
 
 import android.content.Context
 import android.net.ConnectivityManager

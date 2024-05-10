@@ -1,4 +1,4 @@
-package com.myself223.metube.ui.adapters.PlaylistFragmentAdapter
+package com.myself223.metube.ui.adapters.playlist_fragment_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

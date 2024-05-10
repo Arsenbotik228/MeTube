@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    kotlin("kapt")
-    alias(libs.plugins.hiltAndroid)
 }
 
 android {
@@ -52,11 +50,12 @@ dependencies {
     implementation(libs.bundles.test.component)
     //Retrofit
     implementation(libs.bundles.network.component)
-
-    //Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compilar)
-    //NavController
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp:4.+")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.+")
+    //koin
+    implementation(libs.bundles.koin.component)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
 
 }
