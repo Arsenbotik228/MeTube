@@ -32,7 +32,6 @@ class PlaylistsFragment : BaseFragment<FragmentPlaylistsBinding>(), PlaylistAdap
             when (resourse) {
                 is Resourse.Loading<*> -> {
                     binding?.progress?.isVisible = true
-                    binding?.rvPlaylists?.isVisible = false
                 }
                 is Resourse.Success<*> -> {
                     binding?.progress?.isGone = true
@@ -41,7 +40,6 @@ class PlaylistsFragment : BaseFragment<FragmentPlaylistsBinding>(), PlaylistAdap
                 }
                 is Resourse.Error<*> -> {
                     binding?.progress?.isGone = true
-                    binding?.rvPlaylists?.isVisible = false
                     Toast.makeText(
                         requireContext(),
                         "Упс! Произошла какая-то ошибка",
