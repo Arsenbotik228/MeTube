@@ -39,8 +39,8 @@ class PlaylistViewModel (
     }
 }*/
 class PlaylistViewModel(private val repository: MeTubeRepository) : ViewModel() {
-    private val _liveData = MutableLiveData<Resourse<MutableList<ItemPlaylistDto>?>>()
-    val liveData: LiveData<Resourse<MutableList<ItemPlaylistDto>?>> = _liveData
+    private val _liveData = MutableLiveData<Resourse<MutableList<BaseMainResponse<ItemPlaylistDto>?>>>()
+    val liveData: LiveData<Resourse<MutableList<BaseMainResponse<ItemPlaylistDto>?>>> = _liveData
 
     fun getPlaylist() {
         viewModelScope.launch {
@@ -48,7 +48,7 @@ class PlaylistViewModel(private val repository: MeTubeRepository) : ViewModel() 
             try {
                 val response = repository.getPlaylist()
                 response.value?.let { baseResponse ->
-                    _liveData.value = Resourse.Success(baseResponse.items as MutableList<ItemPlaylistDto>?)
+                    _liveData.value = Resourse.Success(baseResponse.items as MutableList<BaseMainResponse<ItemPlaylistDto>?>)
                 } ?: run {
                     _liveData.value = Resourse.Error("Error occurred while fetching playlists")
                 }

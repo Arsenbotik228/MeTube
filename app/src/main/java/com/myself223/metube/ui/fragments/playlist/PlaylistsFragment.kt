@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.myself223.metube.R
 import com.myself223.metube.base.BaseFragment
 import com.myself223.metube.base.core.Resourse
+import com.myself223.metube.data.models.BaseMainResponse
 import com.myself223.metube.data.models.ItemPlaylistDto
 import com.myself223.metube.databinding.FragmentPlaylistsBinding
 import com.myself223.metube.ui.adapters.playlist_fragment_adapter.PlaylistAdapter
@@ -63,7 +64,9 @@ class PlaylistsFragment : BaseFragment<FragmentPlaylistsBinding>(), PlaylistAdap
 
     }
 
-    override fun onClick(model: ItemPlaylistDto) {
+
+
+    override fun onClick(model: BaseMainResponse<ItemPlaylistDto>) {
         findNavController().navigate(R.id.videoPlaylistFragment)
     }
 }
