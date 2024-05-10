@@ -42,11 +42,11 @@ class PlaylistViewModel(private val repository: MeTubeRepository) : ViewModel() 
     private val _liveData = MutableLiveData<Resourse<MutableList<BaseMainResponse<ItemPlaylistDto>?>>>()
     val liveData: LiveData<Resourse<MutableList<BaseMainResponse<ItemPlaylistDto>?>>> = _liveData
 
-    fun getPlaylist() {
+    fun getPlaylist(page:Int) {
         viewModelScope.launch {
             _liveData.value = Resourse.Loading()
             try {
-                val response = repository.getPlaylist()
+                val response = repository.getPlaylist(page = page)
                 response.value?.let { baseResponse ->
                     _liveData.value = Resourse.Success(baseResponse.items as MutableList<BaseMainResponse<ItemPlaylistDto>?>)
                 } ?: run {

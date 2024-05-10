@@ -59,9 +59,9 @@ class PlaylistRepository @Inject constructor(private val apiService: ApiService)
     }
 }*/
 class MeTubeRepository(private val apiService: ApiService) {
-    fun getPlaylist(): MutableLiveData<BaseMainResponse<ItemPlaylistDto>> {
+    fun getPlaylist(page:Int): MutableLiveData<BaseMainResponse<ItemPlaylistDto>> {
         val liveData = MutableLiveData<BaseMainResponse<ItemPlaylistDto>>()
-        apiService.getPlaylist().enqueue(object : Callback<BaseMainResponse<ItemPlaylistDto>> {
+        apiService.getPlaylist(page = page).enqueue(object : Callback<BaseMainResponse<ItemPlaylistDto>> {
             override fun onResponse(
                 call: Call<BaseMainResponse<ItemPlaylistDto>>,
                 response: Response<BaseMainResponse<ItemPlaylistDto>>

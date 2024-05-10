@@ -28,7 +28,7 @@ class PlaylistsFragment : BaseFragment<FragmentPlaylistsBinding>(), PlaylistAdap
     }
 
     override fun launchObserver() {
-        viewModel.getPlaylist()
+        viewModel.getPlaylist(page = playlists)
         viewModel.liveData.observe(viewLifecycleOwner) { resourse ->
             when (resourse) {
                 is Resourse.Loading<*> -> {

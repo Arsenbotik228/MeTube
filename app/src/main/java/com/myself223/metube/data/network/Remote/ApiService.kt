@@ -15,6 +15,7 @@ interface ApiService {
         @Query("channelId") channelId : String? = CHANEL_ID ,
         @Query("ApiKey") key : String = API_KEY,
         @Query("maxResults") max : Int = MAX_RESULT,
+        @Query("page") page :Int = 10
         ): Call<BaseMainResponse<ItemPlaylistDto>>
     companion object{
         const val PART = "snippet,contentDetails"
