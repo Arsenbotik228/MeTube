@@ -8,6 +8,6 @@ data class BaseMainResponse<T>(
     val tag:String? = null,
     val nextPageToken: String? = null,
     val prevPageToken: String? = null,
-    val items:List<ItemPlaylistDto>,
+    val items:List<T>,
     val pageInfo: PageInfoDto? = null,
 )

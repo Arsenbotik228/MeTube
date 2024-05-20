@@ -4,7 +4,8 @@ data class SnippetDto (
     val publishedAt:String? = null,
     val channelId:String? = null,
     val title :String? = null,
-    val descriptions:ThumbDto? = null,
+    val thumbnails:ThumbDto? = null,
+    val descriptions:String? = null,
     val channelTitle:String? = null
 
 )

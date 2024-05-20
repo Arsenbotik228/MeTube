@@ -1,26 +1,24 @@
 package com.myself223.metube.ui.adapters.playlist_fragment_adapter
 
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.bumptech.glide.Glide
-import com.myself223.metube.data.models.BaseMainResponse
 import com.myself223.metube.data.models.ItemPlaylistDto
 import com.myself223.metube.databinding.ItemPlaylistBinding
-import com.myself223.metube.ui.fragments.playlist.PlaylistsFragment
+import com.myself223.metube.ui.utils.loadImageURL
 
-class PlaylistAdapter(playlistsFragment: PlaylistsFragment, private val click: Click) : ListAdapter<BaseMainResponse<ItemPlaylistDto>, PlaylistAdapter.PlaylistViewHolder>(
+open class PlaylistAdapter(val context: Context, private val click:(id:String)->Unit) : ListAdapter<ItemPlaylistDto, PlaylistAdapter.PlaylistViewHolder>(
     PlaylistDiffUtill()
 ) {
     class PlaylistViewHolder(private val binding: ItemPlaylistBinding) : ViewHolder(binding.root) {
-        fun onBind(it: BaseMainResponse<ItemPlaylistDto>) {
+        fun onBind(it:ItemPlaylistDto) {
 
-            binding.itemNamePlaylist.text = it.items.get(1).snippetDto?.title
-            binding.itemNamePlaylist.text = it.items.get(1).contentDetails?.itemCount?.toString()
-            Glide.with(binding.root).load(it.items.get(1).snippetDto?.descriptions?.mediumDto?.url).centerCrop().into(binding.itemPlaylistPreview)
+            binding.itemTvTitle.text = it.snippetDto?.title
+            binding.itemImg.loadImageURL(it.snippetDto?.thumbnails?.default?.url)
+            binding.itemTvCount.text = it.contentDetails?.itemCount?.toString()
         }
     }
 
@@ -29,31 +27,26 @@ class PlaylistAdapter(playlistsFragment: PlaylistsFragment, private val click: C
     }
 
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
-        val PlaylistModel = getItem(position)
+        val playlistModel = getItem(position)
         holder.itemView.setOnClickListener {
-            click.onClick(PlaylistModel)
+            playlistModel.id?.let { it1 -> click(it1) }
         }
-        holder.onBind(PlaylistModel)
+        holder.onBind(playlistModel)
     }
 
-    class PlaylistDiffUtill : DiffUtil.ItemCallback<BaseMainResponse<ItemPlaylistDto>>() {
-        override fun areItemsTheSame(
-            oldItem: BaseMainResponse<ItemPlaylistDto>,
-            newItem: BaseMainResponse<ItemPlaylistDto>
-        ): Boolean {
-           return oldItem == newItem
+    class PlaylistDiffUtill : DiffUtil.ItemCallback<ItemPlaylistDto>() {
 
+
+        override fun areItemsTheSame(oldItem: ItemPlaylistDto, newItem: ItemPlaylistDto): Boolean {
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: BaseMainResponse<ItemPlaylistDto>,
-            newItem: BaseMainResponse<ItemPlaylistDto>
+            oldItem: ItemPlaylistDto,
+            newItem: ItemPlaylistDto
         ): Boolean {
+
             return oldItem == newItem
         }
-    }
-
-    interface Click {
-        fun onClick(model: BaseMainResponse<ItemPlaylistDto>)
     }
 }

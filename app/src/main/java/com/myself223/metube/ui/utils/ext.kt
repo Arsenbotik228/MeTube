@@ -1,11 +1,13 @@
 @file:Suppress("DEPRECATION")
 
-package com.myself223.metube.ui.checking_for_internet
+package com.myself223.metube.ui.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 
 fun isNetworkAvailable(context: Context?): Boolean {
     if (context == null) return false
@@ -32,4 +34,9 @@ fun isNetworkAvailable(context: Context?): Boolean {
         }
     }
     return false
+}
+fun ImageView.loadImageURL(url:String?){
+    Glide.with(this).load(url).centerCrop().into(this)
+
+
 }

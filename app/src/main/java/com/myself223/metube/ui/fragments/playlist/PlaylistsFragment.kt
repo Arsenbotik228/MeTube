@@ -1,14 +1,14 @@
 package com.myself223.metube.ui.fragments.playlist
 
-import android.util.Log
-import android.widget.Toast
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.myself223.metube.R
 import com.myself223.metube.base.BaseFragment
 import com.myself223.metube.base.core.Resourse
-import com.myself223.metube.data.models.BaseMainResponse
 import com.myself223.metube.data.models.ItemPlaylistDto
 import com.myself223.metube.databinding.FragmentPlaylistsBinding
 import com.myself223.metube.ui.adapters.playlist_fragment_adapter.PlaylistAdapter
@@ -16,57 +16,60 @@ import com.myself223.metube.ui.view_model.playlist_view_model.PlaylistViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class PlaylistsFragment : BaseFragment<FragmentPlaylistsBinding>(), PlaylistAdapter.Click {
-    private lateinit var adapter: PlaylistAdapter
-    private val viewModel: PlaylistViewModel by viewModel()
-    private var playlists = 10
+class PlaylistsFragment : BaseFragment<FragmentPlaylistsBinding>() {
+    private val adapter: PlaylistAdapter by lazy {PlaylistAdapter(requireContext(),this::click)  }
+    override fun getViewBinding(): FragmentPlaylistsBinding {
 
-    override fun initialize() {
-        adapter = PlaylistAdapter(this, this)
-        binding?.rvPlaylists?.adapter = adapter
+        return FragmentPlaylistsBinding.inflate(layoutInflater)
 
     }
 
+
+    private val viewModel: PlaylistViewModel by viewModel()
     override fun launchObserver() {
-        viewModel.getPlaylist(page = playlists)
-        viewModel.liveData.observe(viewLifecycleOwner) { resourse ->
-            when (resourse) {
-                is Resourse.Loading<*> -> {
-                    binding?.progress?.isVisible = true
+        binding?.rvPlaylists?.adapter = adapter
+        viewModel.getPlaylist()
+        viewModel.playlistsLiveData.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resourse.Loading -> {
+
                 }
-                is Resourse.Success<*> -> {
-                    binding?.progress?.isGone = true
-                    binding?.rvPlaylists?.isVisible = true
-                    adapter.submitList(resourse.data)
+                is Resourse.Success -> {
+                    adapter.submitList(resource.data?.items)
                 }
-                is Resourse.Error<*> -> {
-                    binding?.progress?.isGone = true
-                    Toast.makeText(
-                        requireContext(),
-                        "Упс! Произошла какая-то ошибка",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.e("ololo", resourse.message.orEmpty())
+                is Resourse.Error -> {
                 }
             }
         }
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding?.rvPlaylists?.adapter = adapter
+        viewModel.getPlaylist()
+        viewModel.playlistsLiveData.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resourse.Loading -> {
 
-    override fun getViewBinding(): FragmentPlaylistsBinding {
-        return FragmentPlaylistsBinding.inflate(layoutInflater)
-    }
-
-    override fun constructorListners() {
-        binding?.btnLoadMore?.setOnClickListener {
-            playlists+10
-            launchObserver()
+                }
+                is Resourse.Success -> {
+                    adapter.submitList(resource.data?.items)
+                }
+                is Resourse.Error -> {
+                }
+            }
         }
 
+
+
+
     }
 
 
+    private fun click(id:String?) {
+        findNavController()
+            .navigate(
+                PlaylistsFragmentDirections.actionPlaylistFragmentToDetailPlaylistFragment()
+                    .setPlaylistId(id))
 
-    override fun onClick(model: BaseMainResponse<ItemPlaylistDto>) {
-        findNavController().navigate(R.id.videoPlaylistFragment)
     }
 }

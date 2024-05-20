@@ -5,18 +5,26 @@ import com.myself223.metube.BuildConfig.CHANEL_ID
 import com.myself223.metube.data.models.BaseMainResponse
 import com.myself223.metube.data.models.ItemPlaylistDto
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
     @GET("playlists")
-    fun getPlaylist(
+    suspend fun getPlaylist(
         @Query("part") part : String? = PART ,
         @Query("channelId") channelId : String? = CHANEL_ID ,
         @Query("ApiKey") key : String = API_KEY,
         @Query("maxResults") max : Int = MAX_RESULT,
-        @Query("page") page :Int = 10
-        ): Call<BaseMainResponse<ItemPlaylistDto>>
+        @Query("page") page :Int = 1
+        ): Response<BaseMainResponse<ItemPlaylistDto>>
+    @GET("playlists")
+    suspend fun getDetailPlaylist(
+
+        @Query("playlistId") playlistId : String ,
+        @Query("ApiKey") key : String = API_KEY,
+        @Query("maxResults") max : Int = MAX_RESULT
+        ): Response<BaseMainResponse<ItemPlaylistDto>>
     companion object{
         const val PART = "snippet,contentDetails"
         const val MAX_RESULT = 50

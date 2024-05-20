@@ -10,54 +10,53 @@ import com.myself223.metube.data.models.ItemPlaylistDto
 import com.myself223.metube.data.repository.MeTubeRepository
 import kotlinx.coroutines.launch
 
-/*
-class PlaylistViewModel (
+/*class PlaylistViewModel (
     private val repository: MeTubeRepository
 )   : ViewModel(){
-    var liveData = MutableLiveData<BaseMainResponse<ItemPlaylistDto>>()
-    fun getPlaylist(playlists:Int){
+    var liveData = MutableLiveData<BaseMainResponse<ItemPlaylistDto>?>()
+    fun getPlaylist(){
         liveData = repository.getPlaylist()
     }
 
 
 
 }*/
-/*class PlaylistViewModel(private val repository: MeTubeRepository) : ViewModel() {
-    private val _liveData = MutableLiveData<Resourse<MutableList<BaseMainResponse<ItemPlaylistDto>?>>>()
-    val liveData: MutableLiveData<Resourse<MutableList<BaseMainResponse<ItemPlaylistDto>?>>> = _liveData
+class PlaylistViewModel(
+    private val repository: MeTubeRepository
+) : ViewModel() {
+    private val _playlistsLiveData = MutableLiveData<Resourse<BaseMainResponse<ItemPlaylistDto>?>>()
+    val playlistsLiveData: LiveData<Resourse<BaseMainResponse<ItemPlaylistDto>?>> get() = _playlistsLiveData
 
-    fun getPlaylist(playlists: Int) {
+    fun getPlaylist() {
         viewModelScope.launch {
-            _liveData.value = Resourse.Loading()
-            try {
-                val response = repository.getPlaylist(playlists)
-                _liveData.value = Resourse.Success(response.items)
-            } catch (e: Exception) {
-                _liveData.value = e.message?.let { Resourse.Error(it) }
-            }
+            _playlistsLiveData.value = repository.getPlaylist().value
         }
     }
-}*/
-class PlaylistViewModel(private val repository: MeTubeRepository) : ViewModel() {
-    private val _liveData = MutableLiveData<Resourse<MutableList<BaseMainResponse<ItemPlaylistDto>?>>>()
-    val liveData: LiveData<Resourse<MutableList<BaseMainResponse<ItemPlaylistDto>?>>> = _liveData
-
-    fun getPlaylist(page:Int) {
-        viewModelScope.launch {
-            _liveData.value = Resourse.Loading()
-            try {
-                val response = repository.getPlaylist(page = page)
-                response.value?.let { baseResponse ->
-                    _liveData.value = Resourse.Success(baseResponse.items as MutableList<BaseMainResponse<ItemPlaylistDto>?>)
-                } ?: run {
-                    _liveData.value = Resourse.Error("Error occurred while fetching playlists")
-                }
-            } catch (e: Exception) {
-                _liveData.value = Resourse.Error(e.message.orEmpty())
-            }
-        }
-    }
-
 }
+/*class PlaylistViewModel(
+    private val repository: MeTubeRepository
+) : ViewModel() {
+    private val _playlistsLiveData =
+        LiveData<Resourse<BaseMainResponse<ItemPlaylistDto>?>> = MutableLiveData()
+    var liveData get() = _playlistsLiveData
+
+    fun getPlaylist() =
+        _playlistsLiveData = repository.getPlaylist()
+}*/
+
+    /*fun getPlaylist() {
+        _playlistsLiveData.value = Resourse.Loading()
+        viewModelScope.launch {
+            try {
+                val response = repository.getPlaylist()
+                _playlistsLiveData.value = Resourse.Success(response.value)
+            } catch (e: Exception) {
+                _playlistsLiveData.value = Resourse.Error(e.message ?: "Unknown error")
+            }
+        }
+    }*/
+
+
+
 
 

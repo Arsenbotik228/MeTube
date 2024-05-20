@@ -11,7 +11,7 @@ import com.myself223.metube.databinding.FragmentVideoPlaylistBinding
 
 class VideoPlaylistFragment : BaseFragment<FragmentVideoPlaylistBinding>() {
     override fun getViewBinding(): FragmentVideoPlaylistBinding {
-        TODO("Not yet implemented")
+        return FragmentVideoPlaylistBinding.inflate(layoutInflater)
     }
 
 

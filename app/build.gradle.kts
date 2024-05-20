@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.navigationArgs)
 }
 
 android {
@@ -44,6 +45,21 @@ android {
 }
 
 dependencies {
+
+    val exoPlayerVersion = "2.18.1"
+    implementation("com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion")
+    implementation("com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion")
+
+    implementation(libs.androidx.fragment)
+    val nav_version = "2.7.7"
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    // Feature module Support
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+
+    // Testing Navigation
+    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+
     //core.ktx,material,appCompat,activity,constraintlayout,navController
     implementation(libs.bundles.ui.component)
     //junit,espresso
@@ -52,7 +68,7 @@ dependencies {
     implementation(libs.bundles.network.component)
     // define any required OkHttp artifacts without version
     implementation("com.squareup.okhttp3:okhttp:4.+")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.+")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     //koin
     implementation(libs.bundles.koin.component)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
